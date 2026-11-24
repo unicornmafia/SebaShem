@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sebashem-trainer"
+version = "0.1.0"
+description = "Train the SebaShem MdC -> transliteration and transliteration -> English models"
+# OpenNMT-py 3.5 / torch 2.2 wheels: Python 3.10 or 3.11.
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "sebashem-text",
+    "OpenNMT-py>=3.5,<3.6",
+    # Newer pyonmttok macOS wheels fail to load libOpenNMTTokenizer.dylib; the notebook pinned this.
+    "pyonmttok==1.37.1",
+    "torch>=2.1,<2.3",
+    "numpy<2",
+    "ctranslate2>=4.4,<5",
+    "sacrebleu>=2.4",
+    "PyYAML>=6",
+]
+
+[project.optional-dependencies]
+word2vec = ["gensim>=4.3", "beautifulsoup4>=4.12"]
+test = ["pytest>=8"]
+
+[project.scripts]
+sebashem-train = "sebashem_trainer.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["sebashem_trainer*"]

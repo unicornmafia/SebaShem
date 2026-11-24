@@ -1,0 +1,15 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: sebashem-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/models:ro
+    environment:
+      MODEL_DIR: /models
+      MDC_MODEL: mdc2translit
+      TRANSLIT_MODEL: translit2eng
+      INTER_THREADS: "2"

@@ -1,0 +1,50 @@
+# MdC -> transliteration from the Sinuhe JSesh editions only: the first
+# (baseline) model. mdc2translit.yaml adds the TLA corpus and dictionaries.
+# Source is tokenized into sign codes and layout operators, the target into
+# characters. Relative paths are relative to this file.
+
+task: mdc2translit
+name: mdc2translit-sinuhe
+work_dir: ../work/mdc2translit
+output_dir: ../../models
+
+sources:
+  # Annotated Sinuhe editions (glyph lines + +t + +l). Point these at wherever
+  # your .gly files live; globs are allowed.
+  - type: jsesh
+    path: ~/Downloads/Sinuhe_tm_sebasesh*.gly
+  - type: jsesh
+    path: ~/Downloads/sinuhe_sebasesh.gly
+  - type: jsesh
+    path: ~/Downloads/Sinuhe_november_2026.gly
+  # R1-25 + B1-309, one manuscript line of glyphs then its transliteration.
+  - type: alternating
+    path: ../../../EgyptianTranslation/sinuhe/sinuhe_glyphs_transliteration.txt
+    fields: [mdc, translit]
+  # Sentence-level, but its glyph/sentence alignment is only approximate
+  # (see EgyptianTranslation/sinuhe/README.md), so it is off by default.
+  # - type: jsesh
+  #   path: ../../../EgyptianTranslation/sinuhe/sinuhe_trilingual.gly
+
+# The editions above overlap heavily; keep one example per distinct glyph line.
+dedupe: src
+
+tokenizers: {src: mdc}   # the baseline kept layout operators
+
+split:
+  strategy: random
+  val_ratio: 0.1
+  test_ratio: 0.1
+  seed: 1234
+
+device: auto
+
+# Small transformer defaults (3+3 layers, 256 hidden, 3000 steps); override here.
+onmt: {}
+
+export:
+  quantization: int8
+
+decode:
+  beam_size: 5
+  max_decoding_length: 512

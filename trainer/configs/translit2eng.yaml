@@ -1,0 +1,52 @@
+# Transliteration (MdC ASCII) -> English.
+# Reproduces the supervised setup of EgyptianTranslation.ipynb: the same corpora
+# as egyptiandatasetgenerator.ipynb and the same file-level val/test holdout.
+# Relative paths are relative to this file.
+
+task: translit2eng
+name: translit2eng
+work_dir: ../work/translit2eng
+output_dir: ../../models
+
+sources:
+  - type: nederhof
+    path: ../../../EgyptianTranslation/texts/nederhof-texts
+  - type: grammar
+    path: ../../../EgyptianTranslation/texts/grammar-texts
+  - type: csv
+    path: ../../../EgyptianTranslation/pyramidtext-parsing/preprocessed.csv
+    columns: {translit: Transliteration, translation: Translation}
+    origin: Pyramid Texts
+  # Annotated JSesh files also carry +t / +l lines and can be added here, e.g.
+  # - type: jsesh
+  #   path: ~/Downloads/Sinuhe_tm_sebasesh3.gly
+
+dedupe: none   # the notebook kept duplicates
+
+split:
+  strategy: by_origin
+  val: [WestcarTr.txt, GebelBarkalTuthmosisIIITr.txt, RestorationTutankhamunTr.txt, HymnSunTr.txt]
+  test: [DisputeTr.txt, HatshepsutPuntTr.txt, LoyalistDETr.txt, DestructionMankindTr.txt]
+
+device: auto   # auto | cpu | gpu
+
+# Any OpenNMT-py training option; merged over the notebook's hyperparameters
+# (6+6 layer transformer, 3000 steps). For the semi-supervised variant, add
+# embeddings produced by `sebashem-train word2vec`:
+#   src_embeddings: ../work/w2v/src.w2v.txt
+#   tgt_embeddings: ../work/w2v/tgt.w2v.txt
+#   embeddings_type: word2vec
+onmt:
+  train_steps: 3000
+
+export:
+  quantization: int8   # int8 | int8_float32 | float16 | none
+  # Attention used to place line markers in the output: decoder layer -4, all heads
+  # averaged put 90% of Nederhof's own markers within one word (last layer, first
+  # head, the converter default: 72%).
+  alignment_layer: -4
+  alignment_heads: 0
+
+decode:
+  beam_size: 5
+  max_decoding_length: 256

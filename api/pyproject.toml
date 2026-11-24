@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sebashem-api"
+version = "0.1.0"
+description = "FastAPI service: MdC hieroglyphs -> transliteration -> English"
+requires-python = ">=3.10"
+dependencies = [
+    "sebashem-text",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "ctranslate2>=4.4,<5",
+    "pydantic>=2.6",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8", "httpx>=0.27"]
+
+[tool.setuptools.packages.find]
+include = ["sebashem_api*"]

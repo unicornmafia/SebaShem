@@ -1,0 +1,43 @@
+# Transliteration -> English from EgyptianTranslation's committed compiled_corpora,
+# i.e. the exact train/val/test files the existing model_step_3000.pt was trained
+# on (10350 / 1293 / 1295 lines). Use translit2eng.yaml to rebuild from raw texts.
+
+task: translit2eng
+name: translit2eng
+work_dir: ../work/translit2eng-compiled
+output_dir: ../../models
+
+sources:
+  - type: parallel
+    origin: train
+    normalize: false
+    files:
+      translit: ../../../EgyptianTranslation/compiled_corpora/aligned_train.egy.csv
+      translation: ../../../EgyptianTranslation/compiled_corpora/aligned_train.eng.csv
+  - type: parallel
+    origin: val
+    normalize: false
+    files:
+      translit: ../../../EgyptianTranslation/compiled_corpora/aligned_val.egy.csv
+      translation: ../../../EgyptianTranslation/compiled_corpora/aligned_val.eng.csv
+  - type: parallel
+    origin: test
+    normalize: false
+    files:
+      translit: ../../../EgyptianTranslation/compiled_corpora/aligned_test.egy.csv
+      translation: ../../../EgyptianTranslation/compiled_corpora/aligned_test.eng.csv
+
+dedupe: none
+
+split:
+  strategy: by_origin
+  val: [val]
+  test: [test]
+
+device: auto
+onmt:
+  train_steps: 3000
+export:
+  quantization: int8
+  alignment_layer: -4   # see translit2eng.yaml
+  alignment_heads: 0

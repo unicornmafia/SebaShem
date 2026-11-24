@@ -1,0 +1,104 @@
+# MdC hieroglyph codes -> transliteration, trained on:
+#   * the TLA "Original Earlier Egyptian sentences" corpus (12.7k sentences),
+#   * the annotated Sinuhe JSesh editions,
+#   * dictionary spellings (SebaSebaDictionary entries.json + TLA word list) as
+#     word-level pairs, used for training only.
+# The source is the sign sequence without layout operators ("signs" tokenizer),
+# since TLA and the dictionaries don't record layout; the target is characters.
+# Relative paths are relative to this file.
+
+task: mdc2translit
+name: mdc2translit
+work_dir: ../work/mdc2translit-tla
+output_dir: ../../models
+
+# Output whole words in scholarly layout: =f / =k for suffix pronouns and statives,
+# .n / .tw / .t for other endings, i not j, s not z (sDm.n=f, iy=kwi). Sources whose
+# transliteration splits these off without telling = from . (Sinuhe_november_2026.gly,
+# sinuhe_glyphs_transliteration.txt) can't provide it and are left out.
+translit_style: scholarly
+
+sources:
+  - type: tla
+    path: ../../../SebaSebaDictionary/dictionaries/train.jsonl
+    corpus: tla
+  # Newest edition first: with dedupe: src the first transliteration of a line wins.
+  - type: jsesh
+    path: ~/Downloads/Sinuhe_tm_sebasesh3_sebasesh.gly
+    corpus: sinuhe
+    dedupe: src
+  - type: jsesh
+    path: ~/Downloads/Sinuhe_tm_sebasesh3.gly
+    corpus: sinuhe
+    dedupe: src
+  - type: jsesh
+    path: ~/Downloads/Sinuhe_tm_sebasesh2.gly
+    corpus: sinuhe
+    dedupe: src
+  - type: jsesh
+    path: ~/Downloads/Sinuhe_tm_sebasesh.gly
+    corpus: sinuhe
+    dedupe: src
+  - type: jsesh
+    path: ~/Downloads/sinuhe_sebasesh.gly
+    corpus: sinuhe
+    dedupe: src
+  - type: tla_wordlist
+    path: ../../../SebaSebaDictionary/dictionaries/tla_wordlist.jsonl
+    corpus: lexicon
+    train_only: true
+  - type: dictionary
+    path: ../../../SebaSebaDictionary/entries.json
+    corpus: lexicon
+    train_only: true
+
+dedupe: pair
+
+# Examples taken from each corpus per sampling cycle. Sinuhe is small but is the
+# JSesh-style input the API gets, so it is seen several times more often per
+# example than TLA; the ~60k lexicon pairs are kept from dominating.
+corpus_weights:
+  tla: 4
+  sinuhe: 1
+  lexicon: 2
+
+split:
+  strategy: random
+  val_ratio: 0.05
+  test_ratio: 0.05
+  seed: 1234
+  # Never train on the baseline model's Sinuhe test lines, so both models can be
+  # scored on them: sebashem-train evaluate --src ../eval/sinuhe-holdout.input ...
+  holdout: [../eval/sinuhe-holdout.input]
+
+device: auto
+
+# A first run with learning_rate 2 / warmup 800 and no gradient clipping peaked
+# at step 500 and then diverged (validation accuracy 48% -> 42%), hence the
+# lower peak rate, longer warmup and clipping.
+onmt:
+  batch_type: tokens
+  batch_size: 4096
+  enc_layers: 4
+  dec_layers: 4
+  train_steps: 5000
+  valid_steps: 500
+  save_checkpoint_steps: 500
+  learning_rate: 1
+  warmup_steps: 2000
+  max_grad_norm: 1
+  dropout: [0.2]
+  attention_dropout: [0.1]
+
+export:
+  quantization: int8
+  checkpoint: best   # highest validation accuracy, not the last step
+  # Attention used to place line markers: decoder layer -2, all heads averaged put
+  # 85% of markers exactly at the line boundary (94% within one word) on joined pairs
+  # of held-out Sinuhe lines; the converter default (last layer, head 1) gave 50% / 79%.
+  alignment_layer: -2
+  alignment_heads: 0
+
+decode:
+  beam_size: 5
+  max_decoding_length: 512
