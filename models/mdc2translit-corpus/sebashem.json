@@ -1,0 +1,155 @@
+{
+  "name": "mdc2translit",
+  "task": "mdc2translit",
+  "format": "ctranslate2",
+  "created": "2026-11-21T02:43:27+00:00",
+  "source_checkpoint": "/Users/thomas/src/SebaShem/trainer/work/mdc2translit-tla/run/model_step_5000.pt",
+  "quantization": "int8",
+  "alignment": {
+    "layer": -2,
+    "heads": 0
+  },
+  "tokenizers": {
+    "src": "signs",
+    "tgt": "chars"
+  },
+  "decode": {
+    "beam_size": 5,
+    "max_decoding_length": 512
+  },
+  "data": {
+    "sources": [
+      {
+        "type": "tla",
+        "path": "../../../SebaSebaDictionary/dictionaries/train.jsonl",
+        "corpus": "tla",
+        "records": 12773,
+        "kept": 9941,
+        "duplicate": 2830,
+        "held_out": 1,
+        "unusable": 1
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_tm_sebasesh*.gly",
+        "corpus": "sinuhe",
+        "records": 958,
+        "kept": 281,
+        "held_out": 107,
+        "unusable": 9,
+        "duplicate": 561
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/sinuhe_sebasesh.gly",
+        "corpus": "sinuhe",
+        "records": 277,
+        "duplicate": 244,
+        "held_out": 30,
+        "unusable": 3
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_november_2026.gly",
+        "corpus": "sinuhe",
+        "records": 68,
+        "held_out": 9,
+        "duplicate": 1,
+        "kept": 58
+      },
+      {
+        "type": "alternating",
+        "path": "../../../EgyptianTranslation/sinuhe/sinuhe_glyphs_transliteration.txt",
+        "corpus": "sinuhe",
+        "records": 334,
+        "duplicate": 44,
+        "held_out": 29,
+        "kept": 259,
+        "unusable": 2
+      },
+      {
+        "type": "tla_wordlist",
+        "path": "../../../SebaSebaDictionary/dictionaries/tla_wordlist.jsonl",
+        "corpus": "lexicon",
+        "records": 15662,
+        "kept": 13856,
+        "duplicate": 1802,
+        "unusable": 2,
+        "held_out": 2
+      },
+      {
+        "type": "dictionary",
+        "path": "../../../SebaSebaDictionary/entries.json",
+        "corpus": "lexicon",
+        "records": 48448,
+        "kept": 46790,
+        "duplicate": 1647,
+        "unusable": 9,
+        "held_out": 2
+      }
+    ],
+    "examples": 71185,
+    "holdout_lines": 68,
+    "splits": {
+      "train": 70131,
+      "valid": 527,
+      "test": 527
+    },
+    "train_corpora": {
+      "tla": 8947,
+      "sinuhe": 538,
+      "lexicon": 60646
+    },
+    "top_origins": [
+      [
+        "entries.json",
+        46790
+      ],
+      [
+        "tla_wordlist.jsonl",
+        13856
+      ],
+      [
+        "train.jsonl",
+        9941
+      ],
+      [
+        "Sinuhe_tm_sebasesh.gly",
+        276
+      ],
+      [
+        "sinuhe_glyphs_transliteration.txt",
+        259
+      ],
+      [
+        "Sinuhe_november_2026.gly",
+        58
+      ],
+      [
+        "Sinuhe_tm_sebasesh2.gly",
+        5
+      ]
+    ]
+  },
+  "config": "/Users/thomas/src/SebaShem/trainer/configs/mdc2translit.yaml",
+  "metrics": {
+    "test_sentences": 527,
+    "bleu": 53.35,
+    "chrf": 61.6,
+    "exact_match": 0.1157,
+    "by_corpus": {
+      "sinuhe": {
+        "test_sentences": 29,
+        "bleu": 39.22,
+        "chrf": 57.47,
+        "exact_match": 0.0345
+      },
+      "tla": {
+        "test_sentences": 498,
+        "bleu": 53.93,
+        "chrf": 61.83,
+        "exact_match": 0.1205
+      }
+    }
+  }
+}

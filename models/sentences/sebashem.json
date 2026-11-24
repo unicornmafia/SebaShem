@@ -1,0 +1,45 @@
+{
+  "name": "sentences",
+  "task": "sentences",
+  "format": "hashed-logistic",
+  "created": "2026-11-21T03:52:01+00:00",
+  "threshold": 0.6,
+  "min_tokens": 2,
+  "refine_radius": 2,
+  "refine_penalty": 0.5,
+  "sources": [
+    "../EgyptianTranslation/texts/nederhof-texts",
+    "../EgyptianTranslation/texts/grammar-texts",
+    "/Users/thomas/Downloads/Sinuhe_tm_sebasesh3_sebasesh.gly"
+  ],
+  "metrics": {
+    "all_texts": {
+      "threshold": 0.6,
+      "dev": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1": 0.875
+      },
+      "test": {
+        "precision": 1.0,
+        "recall": 0.857,
+        "f1": 0.923
+      }
+    },
+    "without_sinuhe_texts": {
+      "threshold": 0.3,
+      "dev": {
+        "precision": 0.526,
+        "recall": 0.625,
+        "f1": 0.571
+      },
+      "test": {
+        "precision": 0.796,
+        "recall": 0.683,
+        "f1": 0.735
+      }
+    },
+    "test_sentences": 76
+  },
+  "note": "metrics are from models trained without the held-out part; this model includes it"
+}

@@ -23,7 +23,7 @@ English "prince regent and count"
 | `shared/` | `sebashem_text`: MdC cleaning/tokenizing/Unicode rendering, transliteration normalization, tokenizers. Used by both the trainer and the API, so models see the same input at train and serve time. |
 | `trainer/` | `sebashem-train` CLI, corpus parsers ported from `egyptiandatasetgenerator.ipynb`, configs. |
 | `api/` | FastAPI app and Dockerfile. Serves CTranslate2 models only, so the image doesn't need torch. |
-| `models/` | Exported models (`models/<name>/` = CTranslate2 files + `sebashem.json`). The trainer writes here; the API reads from here. Not in git: train or export them locally (below). |
+| `models/` | Exported models (`models/<name>/` = CTranslate2 files + `sebashem.json`). The trainer writes here; the API reads from here. The current models are committed with Git LFS (`git lfs install` before cloning, or `git lfs pull` after); retraining overwrites them. |
 
 ## Quick start
 

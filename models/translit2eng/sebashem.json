@@ -1,0 +1,89 @@
+{
+  "name": "translit2eng",
+  "task": "translit2eng",
+  "format": "ctranslate2",
+  "created": "2026-11-21T02:47:13+00:00",
+  "source_checkpoint": "/Users/thomas/src/EgyptianTranslation/onmt-files/run/model_step_3000.pt",
+  "quantization": "int8",
+  "alignment": {
+    "layer": -4,
+    "heads": 0
+  },
+  "tokenizers": {
+    "src": "whitespace",
+    "tgt": "whitespace"
+  },
+  "decode": {
+    "beam_size": 5,
+    "max_decoding_length": 256
+  },
+  "data": {
+    "sources": [
+      {
+        "type": "parallel",
+        "path": {
+          "translit": "../../../EgyptianTranslation/compiled_corpora/aligned_train.egy.csv",
+          "translation": "../../../EgyptianTranslation/compiled_corpora/aligned_train.eng.csv"
+        },
+        "corpus": "main",
+        "records": 10350,
+        "kept": 10350
+      },
+      {
+        "type": "parallel",
+        "path": {
+          "translit": "../../../EgyptianTranslation/compiled_corpora/aligned_val.egy.csv",
+          "translation": "../../../EgyptianTranslation/compiled_corpora/aligned_val.eng.csv"
+        },
+        "corpus": "main",
+        "records": 1293,
+        "kept": 1293
+      },
+      {
+        "type": "parallel",
+        "path": {
+          "translit": "../../../EgyptianTranslation/compiled_corpora/aligned_test.egy.csv",
+          "translation": "../../../EgyptianTranslation/compiled_corpora/aligned_test.eng.csv"
+        },
+        "corpus": "main",
+        "records": 1295,
+        "kept": 1295
+      }
+    ],
+    "examples": 12938,
+    "holdout_lines": 0,
+    "splits": {
+      "train": 10350,
+      "valid": 1293,
+      "test": 1295
+    },
+    "train_corpora": {
+      "main": 10350
+    },
+    "top_origins": [
+      [
+        "train",
+        10350
+      ],
+      [
+        "test",
+        1295
+      ],
+      [
+        "val",
+        1293
+      ]
+    ]
+  },
+  "config": "/Users/thomas/src/SebaShem/trainer/configs/translit2eng-compiled.yaml",
+  "input_respell": {
+    "i": "j",
+    "z": "s"
+  },
+  "metrics": {
+    "test_sentences": 1295,
+    "bleu": 46.98,
+    "chrf": 58.05,
+    "exact_match": 0.3992
+  }
+}

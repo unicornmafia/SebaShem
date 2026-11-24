@@ -1,0 +1,76 @@
+{
+  "name": "mdc2translit-sinuhe",
+  "task": "mdc2translit",
+  "format": "ctranslate2",
+  "created": "2026-11-21T01:28:43+00:00",
+  "source_checkpoint": "/Users/thomas/src/SebaShem/trainer/work/mdc2translit/run/model_step_3000.pt",
+  "quantization": "int8",
+  "tokenizers": {
+    "src": "mdc",
+    "tgt": "chars"
+  },
+  "decode": {
+    "beam_size": 5,
+    "max_decoding_length": 512
+  },
+  "data": {
+    "sources": [
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_tm_sebasesh*.gly",
+        "records": 958,
+        "usable": 949
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/sinuhe_sebasesh.gly",
+        "records": 277,
+        "usable": 274
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_november_2026.gly",
+        "records": 68,
+        "usable": 68
+      },
+      {
+        "type": "alternating",
+        "path": "../../../EgyptianTranslation/sinuhe/sinuhe_glyphs_transliteration.txt",
+        "records": 334,
+        "usable": 332
+      }
+    ],
+    "examples": 1623,
+    "after_dedupe": 676,
+    "splits": {
+      "train": 540,
+      "valid": 68,
+      "test": 68
+    },
+    "top_origins": [
+      [
+        "Sinuhe_tm_sebasesh.gly",
+        316
+      ],
+      [
+        "sinuhe_glyphs_transliteration.txt",
+        286
+      ],
+      [
+        "Sinuhe_november_2026.gly",
+        66
+      ],
+      [
+        "Sinuhe_tm_sebasesh2.gly",
+        8
+      ]
+    ]
+  },
+  "config": "/Users/thomas/src/SebaShem/trainer/configs/mdc2translit-sinuhe.yaml",
+  "metrics": {
+    "test_sentences": 68,
+    "bleu": 22.8,
+    "chrf": 42.06,
+    "exact_match": 0.0588
+  }
+}

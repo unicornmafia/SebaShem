@@ -1,0 +1,162 @@
+{
+  "name": "mdc2translit",
+  "task": "mdc2translit",
+  "format": "ctranslate2",
+  "created": "2026-11-21T04:28:23+00:00",
+  "source_checkpoint": "/Users/thomas/src/SebaShem/trainer/work/mdc2translit-tla/run/model_step_5000.pt",
+  "quantization": "int8",
+  "alignment": {
+    "layer": -2,
+    "heads": 0
+  },
+  "tokenizers": {
+    "src": "signs",
+    "tgt": "chars"
+  },
+  "decode": {
+    "beam_size": 5,
+    "max_decoding_length": 512
+  },
+  "data": {
+    "sources": [
+      {
+        "type": "tla",
+        "path": "../../../SebaSebaDictionary/dictionaries/train.jsonl",
+        "corpus": "tla",
+        "records": 12773,
+        "kept": 9939,
+        "duplicate": 2832,
+        "held_out": 1,
+        "unusable": 1
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_tm_sebasesh3_sebasesh.gly",
+        "corpus": "sinuhe",
+        "records": 385,
+        "kept": 339,
+        "held_out": 36,
+        "unusable": 3,
+        "duplicate": 7
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_tm_sebasesh3.gly",
+        "corpus": "sinuhe",
+        "records": 319,
+        "duplicate": 280,
+        "held_out": 35,
+        "unusable": 3,
+        "kept": 1
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_tm_sebasesh2.gly",
+        "corpus": "sinuhe",
+        "records": 320,
+        "duplicate": 275,
+        "held_out": 37,
+        "unusable": 3,
+        "kept": 5
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/Sinuhe_tm_sebasesh.gly",
+        "corpus": "sinuhe",
+        "records": 319,
+        "duplicate": 281,
+        "held_out": 35,
+        "unusable": 3
+      },
+      {
+        "type": "jsesh",
+        "path": "~/Downloads/sinuhe_sebasesh.gly",
+        "corpus": "sinuhe",
+        "records": 277,
+        "duplicate": 244,
+        "held_out": 30,
+        "unusable": 3
+      },
+      {
+        "type": "tla_wordlist",
+        "path": "../../../SebaSebaDictionary/dictionaries/tla_wordlist.jsonl",
+        "corpus": "lexicon",
+        "records": 15662,
+        "kept": 13857,
+        "duplicate": 1801,
+        "unusable": 2,
+        "held_out": 2
+      },
+      {
+        "type": "dictionary",
+        "path": "../../../SebaSebaDictionary/entries.json",
+        "corpus": "lexicon",
+        "records": 48448,
+        "kept": 46720,
+        "duplicate": 1726,
+        "held_out": 2
+      }
+    ],
+    "examples": 70861,
+    "holdout_lines": 68,
+    "splits": {
+      "train": 69833,
+      "valid": 514,
+      "test": 514
+    },
+    "train_corpora": {
+      "tla": 8945,
+      "sinuhe": 311,
+      "lexicon": 60577
+    },
+    "top_origins": [
+      [
+        "entries.json",
+        46720
+      ],
+      [
+        "tla_wordlist.jsonl",
+        13857
+      ],
+      [
+        "train.jsonl",
+        9939
+      ],
+      [
+        "Sinuhe_tm_sebasesh3_sebasesh.gly",
+        339
+      ],
+      [
+        "Sinuhe_tm_sebasesh2.gly",
+        5
+      ],
+      [
+        "Sinuhe_tm_sebasesh3.gly",
+        1
+      ]
+    ]
+  },
+  "config": "/Users/thomas/src/SebaShem/trainer/configs/mdc2translit.yaml",
+  "input_respell": {},
+  "translit_style": "scholarly",
+  "metrics": {
+    "test_sentences": 514,
+    "bleu": 52.02,
+    "chrf": 62.94,
+    "exact_match": 0.142,
+    "by_corpus": {
+      "sinuhe": {
+        "test_sentences": 15,
+        "bleu": 39.56,
+        "chrf": 48.93,
+        "exact_match": 0.0667
+      },
+      "tla": {
+        "test_sentences": 499,
+        "bleu": 52.26,
+        "chrf": 63.19,
+        "exact_match": 0.1443
+      }
+    }
+  }
+}
